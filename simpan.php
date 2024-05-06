@@ -18,6 +18,6 @@
     $query = mysqli_query($conn, $sql);
 
     //kembali ke halaman index.php
-    header("location: index.php");
+    header("location: kegiatan_admin.php");
 
 ?>
