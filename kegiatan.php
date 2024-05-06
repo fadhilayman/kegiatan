@@ -15,6 +15,7 @@
         <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css' rel='stylesheet' />
     </head>
     <body>
+    <div class="container mt-4">
                 <div class="col-lg-8">
                     <div id="calendar"></div>
                 </div>
@@ -53,6 +54,7 @@
                 calendar.render();
             });
         </script>
+        </div>
     </body>
     
     </html>
