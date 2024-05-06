@@ -17,7 +17,11 @@
     $sql = "INSERT INTO tb_jadwal VALUES (NULL , '$kegiatan', '$ruangan' , '$mulai','$selesai','$ket' )";
     $query = mysqli_query($conn, $sql);
 
+<<<<<<< HEAD
     //kembali ke halaman
+=======
+    //kembali ke halaman index.php
+>>>>>>> 6c87820dab6512a1caabf8d9009b0244a28f61d3
     header("location: kegiatan_admin.php");
 
 ?>
