@@ -83,13 +83,30 @@
     end: '<?php echo $d['selesai']; ?>' //menampilkan tgl selesai dari tabel
 },
 <?php } ?>],
-                    selectOverlap: function (event) {
-                        return event.rendering === 'background';
-                    }
-                });
-    
-                calendar.render();
-            });
+selectOverlap: function(event) {
+            return event.rendering === 'background';
+        },
+        dateClick: function(info) {
+    // get the events for the clicked date
+    var eventsOnDate = calendar.getEvents().filter(function(event) {
+        var eventStart = moment(event.start);
+        var eventEnd = moment(event.end);
+        var clickedDate = moment(info.date);
+
+        return (eventStart.isSame(clickedDate, 'day') || eventEnd.isSame(clickedDate, 'day'));
+    });
+
+    // display the events in an alert or a modal
+    var eventTitles = eventsOnDate.map(function(event) {
+        return event.title;
+    }).join(', ');
+
+    alert('Events on ' + info.date.toLocaleDateString() + ': ' + eventTitles);
+}
+    });
+
+    calendar.render();
+});
         </script>
     </body>
     
