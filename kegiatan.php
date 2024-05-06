@@ -19,9 +19,13 @@
     </head>
     
     <body>
+<<<<<<< HEAD
         <div class="container mt-4">
             <div class="row">
             
+=======
+    <div class="container mt-4">
+>>>>>>> c6780f77d95d2e8dfd9a685a95e773a3564d18bd
                 <div class="col-lg-8">
                     <div id="calendar"></div>
                 </div>
@@ -77,6 +81,7 @@ selectOverlap: function(event) {
     calendar.render();
 });
         </script>
+        </div>
     </body>
     
     </html>
