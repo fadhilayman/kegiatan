@@ -170,7 +170,7 @@
     </div>
   </nav>
   <form class="form-control" action="proses-login.php" method="POST">
-    <p class="title">Login <br><span style="font-size: 18px;">E - Buku Saku</span></p>
+    <p class="title">Login <br><span style="font-size: 18px;">kegiatan</span></p>
     <div class="input-field">
       <input required="" class="input" type="text" name="username"/>
       <label class="label" for="input">Masukan Username yang sesuai</label>
