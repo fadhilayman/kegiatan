@@ -67,7 +67,7 @@
             integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
-          document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -86,25 +86,34 @@
             return event.rendering === 'background';
         },
         dateClick: function(info) {
-            var eventsOnDate = calendar.getEvents().filter(function(event) {
-                var eventStart = moment(event.start);
-                var eventEnd = moment(event.end);
-                var clickedDate = moment(info.date);
+    var clickedDate = moment(info.date);
+    var eventsOnDate = calendar.getEvents().filter(function(event) {
+        var eventStart = moment(event.start);
+        var eventEnd = moment(event.end);
 
-                return (eventStart.isSame(clickedDate, 'day') || eventEnd.isSame(clickedDate, 'day'));
-            });
+        // Check if clicked date is between event start and end dates
+        // Or if event starts before clicked date but ends after it
+        return clickedDate.isBetween(eventStart, eventEnd, null, '[]') || 
+               (eventStart.isBefore(clickedDate) && eventEnd.isAfter(clickedDate));
+    });
 
-            var eventDescriptions = eventsOnDate.map(function(event) {
-                var startTime = moment(event.start).format('HH:mm');
-                var endTime = moment(event.end).format('HH:mm');
-                return event.title + ' pukul ' + startTime + ' - ' + endTime;
-            }).join(', ');
+    var eventDescriptions = eventsOnDate.map(function(event) {
+        var startTime = moment(event.start).format('HH:mm');
+        var endTime = moment(event.end).format('HH:mm');
+        var enddate = moment(event.end).format('DD');
+        return event.title + ' pukul ' + startTime + ' - ' + event.end;
+    }).join(', ');
 
-            alert('Events on ' + info.date.toLocaleDateString() + ': ' + eventDescriptions);
-        }
+    if (eventDescriptions) {
+        alert('Events on ' + info.date.toLocaleDateString() + ': ' + eventDescriptions);
+    } else {
+        alert('No events on ' + info.date.toLocaleDateString());
+    }
+}
     });
 
     calendar.render();
+
 });
         </script>
     </body>
