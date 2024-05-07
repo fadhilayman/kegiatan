@@ -67,45 +67,41 @@
             integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    events: [<?php 
-    include 'koneksi.php';
-    //melakukan koneksi ke database
-    // $koneksi    = mysqli_connect('localhost', 'root', '', 'latihan');
-    //mengambil data dari tabel jadwal
-    $data       = mysqli_query($conn,'select * from tb_jadwal');
-    //melakukan looping
-    while($d = mysqli_fetch_array($data)){     
-?>
-{
-    title: '<?php echo $d['kegiatan']; ?>', //menampilkan title dari tabel
-    start: '<?php echo $d['mulai']; ?>', //menampilkan tgl mulai dari tabel
-    end: '<?php echo $d['selesai']; ?>' //menampilkan tgl selesai dari tabel
-},
-<?php } ?>],
-selectOverlap: function(event) {
+          document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [<?php 
+            include 'koneksi.php';
+            $data = mysqli_query($conn,'select * from tb_jadwal');
+            while($d = mysqli_fetch_array($data)){     
+        ?>
+        {
+            title: '<?php echo $d['kegiatan']; ?>',
+            start: '<?php echo $d['mulai']; ?>',
+            end: '<?php echo $d['selesai']; ?>'
+        },
+        <?php } ?>],
+        selectOverlap: function(event) {
             return event.rendering === 'background';
         },
         dateClick: function(info) {
-    // get the events for the clicked date
-    var eventsOnDate = calendar.getEvents().filter(function(event) {
-        var eventStart = moment(event.start);
-        var eventEnd = moment(event.end);
-        var clickedDate = moment(info.date);
+            var eventsOnDate = calendar.getEvents().filter(function(event) {
+                var eventStart = moment(event.start);
+                var eventEnd = moment(event.end);
+                var clickedDate = moment(info.date);
 
-        return (eventStart.isSame(clickedDate, 'day') || eventEnd.isSame(clickedDate, 'day'));
-    });
+                return (eventStart.isSame(clickedDate, 'day') || eventEnd.isSame(clickedDate, 'day'));
+            });
 
-    // display the events in an alert or a modal
-    var eventTitles = eventsOnDate.map(function(event) {
-        return event.title;
-    }).join(', ');
+            var eventDescriptions = eventsOnDate.map(function(event) {
+                var startTime = moment(event.start).format('HH:mm');
+                var endTime = moment(event.end).format('HH:mm');
+                return event.title + ' pukul ' + startTime + ' - ' + endTime;
+            }).join(', ');
 
-    alert('Events on ' + info.date.toLocaleDateString() + ': ' + eventTitles);
-}
+            alert('Events on ' + info.date.toLocaleDateString() + ': ' + eventDescriptions);
+        }
     });
 
     calendar.render();
