@@ -83,20 +83,13 @@
                     return event.rendering === 'background';
                 },
                 dateClick: function(info) {
-                    var eventsOnDate = calendar.getEvents().filter(function(event) {
-                        var eventStart = moment(event.start);
-                        var eventEnd = moment(event.end);
-                        var clickedDate = moment(info.date);
-
-                        return (eventStart.isSame(clickedDate, 'day') || eventEnd.isSame(clickedDate, 'day'));
-                    });
-
-                    var eventTitles = eventsOnDate.map(function(event) {
-                        return event.title;
-                    }).join(', ');
-
-                    alert('Events on ' + info.date.toLocaleDateString() + ': ' + eventTitles);
-                },
+                    {
+  // Get the date string in YYYY-MM-DD format
+  var date = info.dateStr;
+  
+  // Redirect to a new page with the date as a parameter
+  window.location.href = 'events_by_date.php?date=' + date;
+}},
                 eventClick: function(info) {
                     var event = info.event;
                     var start = moment(event.start).format('MMMM Do YYYY, h:mm:ss a');
