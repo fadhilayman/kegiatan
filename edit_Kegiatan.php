@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="alert alert-warning" role="alert">
-                    <h4>Form Kegiatan</h4>
+                    <h4>Edit Kegiatan</h4>
                 </div>
                 <div class="card">
                     <form action="simpan.php" method="POST">
@@ -61,46 +61,3 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: [
-                    <?php 
-                    include 'koneksi.php';
-                    $data = mysqli_query($conn,'select * from tb_jadwal');
-                    while($d = mysqli_fetch_array($data)){     
-                    ?>
-                    {
-                        title: '<?php echo $d['kegiatan']; ?>',
-                        start: '<?php echo $d['mulai']; ?>',
-                        end: '<?php echo $d['selesai']; ?>'
-                    },
-                    <?php } ?>
-                ],
-                selectOverlap: function(event) {
-                    return event.rendering === 'background';
-                },
-                dateClick: function(info) {
-                    {
-
-  var date = info.dateStr;
-  
-  
-  window.location.href = 'events_by_date.php?date=' + date;
-}},
-                eventClick: function(info) {
-                    var event = info.event;
-                    var start = moment(event.start).format('MMMM Do YYYY, h:mm:ss a');
-                    var end = moment(event.end).format('MMMM Do YYYY, h:mm:ss a');
-                    alert('Event: ' + event.title + '\nStart: ' + start + '\nEnd: ' + end);
-                }
-            });
-
-            calendar.render();
-        });
-    </script>
-</body>
-
-</html>
