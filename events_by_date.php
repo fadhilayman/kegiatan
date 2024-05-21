@@ -13,7 +13,7 @@ while ($d = mysqli_fetch_array($data)) {
   echo "<h4>". $d['kegiatan']. "</h4>";
   echo "<p>Start: ". $d['mulai']. "</p>";
   echo "<p>End: ". $d['selesai']. "</p>";
-  echo "<p>Keterangan: ". $d['ket']. "</p>";
+  echo "<p>Keterangan: ". $d['keterangan']. "</p>";
   echo "<hr>";
 }
 ?>
