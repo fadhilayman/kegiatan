@@ -71,30 +71,33 @@
                     include 'koneksi.php';
                     $data = mysqli_query($conn,'select * from tb_jadwal');
                     while($d = mysqli_fetch_array($data)){     
-                  ?>
+                    ?>
                     {
-                        title: '<?php echo $d['kegiatan'];?>',
-                        start: '<?php echo $d['mulai'];?>',
-                        end: '<?php echo $d['selesai'];?>'
+                        title: '<?php echo $d['kegiatan']; ?>',
+                        start: '<?php echo $d['mulai']; ?>',
+                        end: '<?php echo $d['selesai']; ?>'
                     },
-                    <?php }?>
+                    <?php } ?>
                 ],
                 selectOverlap: function(event) {
                     return event.rendering === 'background';
                 },
                 dateClick: function(info) {
-                    // Get the events on the clicked date
-                    var eventsOnDate = calendar.getEvents(info.date);
-
-                    // Check if there are any events on the clicked date
-                    if (eventsOnDate.length > 0) {
-                        // Redirect to theevents_by_date.php page with the date as a parameter
-                        window.location.href = 'events_by_date.php?date=' + moment(info.date).format('YYYY-MM-DD');
-                    } else {
-                        alert('Tidak ada kegiatan di tanggal ini.');
-                    }
+                    {
+  // Get the date string in YYYY-MM-DD format
+  var date = info.dateStr;
+  
+  // Redirect to a new page with the date as a parameter
+  window.location.href = 'events_by_date.php?date=' + date;
+}},
+                eventClick: function(info) {
+                    var event = info.event;
+                    var start = moment(event.start).format('MMMM Do YYYY, h:mm:ss a');
+                    var end = moment(event.end).format('MMMM Do YYYY, h:mm:ss a');
+                    alert('Event: ' + event.title + '\nStart: ' + start + '\nEnd: ' + end);
                 }
             });
+
             calendar.render();
         });
     </script>
