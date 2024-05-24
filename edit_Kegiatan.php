@@ -1,19 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include 'koneksi.php';
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- bootstrap cdn  -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <!-- fullcalendar css  -->
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css' rel='stylesheet' />
-</head>
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
 
-<body>
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // Prepare statement to avoid SQL injection
+    $stmt = mysqli_prepare($conn, "SELECT * FROM tb_jadwal WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    // Check if there is any event with the given ID
+    if (mysqli_num_rows($result) > 0) {
+        // Fetch the event
+        $event = mysqli_fetch_assoc($result);
+?>
+
+    <!-- Display the edit event form with the event data -->
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-4">
@@ -21,16 +28,16 @@
                     <h4>Edit Kegiatan</h4>
                 </div>
                 <div class="card">
-                    <form action="simpan.php" method="POST">
+                    <form action="proses_edit_Kegiatan.php" method="POST">
                         <div class="card-body">
+                            <input type="hidden" name="id" value="<?php echo $event['id']; ?>">
                             <div class="form-group">
                                 <div class="form-label">Keterangan Kegiatan</div>
-                                <textarea name="kegiatan" class="form-control" id="kegiatan" cols="30"
-                                    rows="2"></textarea>
+                                <textarea name="kegiatan" class="form-control" id="kegiatan" cols="30" rows="2"><?php echo $event['kegiatan']; ?></textarea>
                             </div>
                             <div class="form-group">
                                 <div class="form-label">Ruangan</div>
-                                <input type="text" class="form-control" name="ruangan" id="ruangan">
+                                <input type="text" class="form-control" name="ruangan" id="ruangan" value="<?php echo $event['ruangan']; ?>">
                             </div>
                             <div class="form-group mt-4">
                                 <div class="form-label">Tgl Mulai</div>
@@ -42,22 +49,29 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-label">Keterangan</div>
-                                <input type="text" class="form-control" name="ket" id="ket">
+                                <input type="text" class="form-control" name="ket" id="ket" value="<?php echo $event['keterangan']; ?>">
                             </div>
                             <div class="form-group mt-4">
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <button type="submit" class="btn btn-success">Selesai</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="col-lg-8">
-                <div id="calendar"></div>
-            </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<?php
+    } else {
+        echo "Tidak ada data event yang sesuai dengan ID yang dipilih.";
+    }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
+} else {
+    echo "ID tidak ditentukan.";
+}
+
+// Close the connection
+mysqli_close($conn);
+?>

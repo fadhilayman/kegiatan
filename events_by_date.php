@@ -6,37 +6,37 @@
     <title>Event List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007FFF;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid #dddddd;
-        padding: 8px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #007FFF;
-        font-weight: bold;
-
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    tr:hover {
-        background-color: #ddd;
-      
-    }
-</style>
 <body>
     <div class="container mt-4">
-        <a href="kegiatan_admin.php">Kembali</a>
+        <div style="position: fixed; left: 300px;">
+            <a href="kegiatan_admin.php" class="btn btn-primary">Kembali</a>
+        </div>
         <center><h2 class="mt-4">Event List for <?php echo htmlspecialchars($_GET['date']); ?></h2></center>
         <hr>
         <table class="table table-bordered">
@@ -46,23 +46,20 @@
                     <th>Start</th>
                     <th>End</th>
                     <th>Description</th>
-                    <th>Edit</th>
+                    <th><center>Opsi</center></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-              
                 include 'koneksi.php';
 
-             
                 $date = $_GET['date'];
 
-             
                 $data = mysqli_query($conn, "
                 SELECT * FROM tb_jadwal 
                 WHERE DATE(mulai) <= '$date' AND DATE(selesai) >= '$date'
-            ");
-            
+                ");
+
                 function isMultiDayEvent($event, $date) {
                     $start = date('Y-m-d', strtotime($event['mulai']));
                     $end = date('Y-m-d', strtotime($event['selesai']));
@@ -77,7 +74,10 @@
                         echo "<td>". htmlspecialchars($d['selesai']). "</td>";
                         echo "<td>". htmlspecialchars($d['keterangan']). "</td>";
                         ?>
-                        <td><a href="edit_Kegiatan.php">Edit</a></td>
+                        <td>
+                            <a href="edit_Kegiatan.php?id=<?php echo $d['id'];?>&tanggal=<?php echo $date;?>" class="btn btn-warning">Edit</a>
+                            <a href="hapus_kegiatan.php?id=<?php echo $d['id'];?>&tanggal=<?php echo $date;?>" class="btn btn-danger">Hapus</a>
+                        </td>
                         <?php
                         echo "</tr>";
                     }
