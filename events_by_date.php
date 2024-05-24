@@ -37,7 +37,7 @@
         <div style="position: fixed; left: 300px;">
             <a href="kegiatan_admin.php" class="btn btn-primary">Kembali</a>
         </div>
-        <center><h2 class="mt-4">Event List for <?php echo htmlspecialchars($_GET['date']); ?></h2></center>
+        <center><h2 class="mt-4">Event List On <?php echo htmlspecialchars($_GET['date']); ?></h2></center>
         <hr>
         <table class="table table-bordered">
             <thead>
@@ -46,7 +46,6 @@
                     <th>Start</th>
                     <th>End</th>
                     <th>Description</th>
-                    <th><center>Opsi</center></th>
                 </tr>
             </thead>
             <tbody>
@@ -73,12 +72,6 @@
                         echo "<td>". htmlspecialchars($d['mulai']). "</td>";
                         echo "<td>". htmlspecialchars($d['selesai']). "</td>";
                         echo "<td>". htmlspecialchars($d['keterangan']). "</td>";
-                        ?>
-                        <td>
-                            <a href="edit_Kegiatan.php?id=<?php echo $d['id'];?>&tanggal=<?php echo $date;?>" class="btn btn-warning">Edit</a>
-                            <a href="hapus_kegiatan.php?id=<?php echo $d['id'];?>&tanggal=<?php echo $date;?>" class="btn btn-danger">Hapus</a>
-                        </td>
-                        <?php
                         echo "</tr>";
                     }
                 }
