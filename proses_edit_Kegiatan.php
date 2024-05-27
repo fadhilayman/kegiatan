@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ket = $_POST['ket'];
 
     // Prepare statement to avoid SQL injection
-    $stmt = mysqli_prepare($conn, "UPDATE tb_jadwal SET kegiatan=?, ruangan=?, tgl_mulai=?, tgl_selesai=?, keterangan=? WHERE id=?");
-    mysqli_stmt_bind_param($stmt, "sssssi", $kegiatan, $ruangan, $mulai, $selesai, $ket, $id);
+    $stmt = mysqli_prepare($conn, "UPDATE tb_jadwal SET kegiatan=?, ruangan=?, tgl_mulai=?, tgl_selesai, keterangan WHERE id=$id");
+    mysqli_stmt_bind_param($stmt, "sssssi", $kegiatan, $ruangan, $mulai, $selesai, $ket);
     
     if (mysqli_stmt_execute($stmt)) {
         echo "Event updated successfully";
