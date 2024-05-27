@@ -50,19 +50,30 @@ $event = mysqli_fetch_array($queryjadwal);
   input[type="submit"]:hover {
     background-color: #3e8e41;
   }
+  .back-button {
+    background-color: #0080FF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0px;
+    cursor: pointer;
+  }
 </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-
-    <!-- Display the edit event form with the event data -->
     <div class="container mt-4">
+    <a href="kegiatan_admin.php" class="back-button">Kembali</a>
         <div class="row">
             <div class="col-lg-4">
                 <div class="alert alert-warning" role="alert">
-                    <h4>Edit Kegiatan</h4>
+                  <center>  <h4>Edit Kegiatan</h4> </center>
                 </div>
                 <div class="card">
                     <div class="container">
