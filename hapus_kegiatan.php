@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "mydatabase");
+include 'koneksi.php';
 
 if (!$conn) {
     die("Koneksi gagal: ". mysqli_connect_error());
@@ -7,8 +7,8 @@ if (!$conn) {
 
 $id = $_GET['id'];
 
-$stmt = mysqli_prepare($conn, "DELETE FROM event WHERE id =?");
+$stmt = mysqli_prepare($conn, "DELETE FROM tb_jadwal WHERE id =?");
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 
-header('Location: events_by_date.php?tanggal='. $_GET['tanggal']);
+header('Location: kegiatan_admin.php');
