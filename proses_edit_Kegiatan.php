@@ -9,8 +9,8 @@ if (isset($_POST['edit'])) {
     $selesai = $_POST['selesai'];
     $ket = $_POST['ket'];
 
-    $update = mysqli_query($conn, "UPDATE tb_jadwal SET kegiatan='$kegiatan', ruangan='$ruangan', mulai='$mulai', selesai='$selesai', keterangan='$ket' WHERE id = '$id'");
-    if ($update) {
+    $update1 = mysqli_query($conn, "UPDATE tb_jadwal SET kegiatan='$kegiatan', ruangan='$ruangan', mulai='$mulai', selesai='$selesai', keterangan='$ket' WHERE id = '$id'");
+    if ($update1) {
         echo "
         <script>
             alert('Jadwal Berhasil di Edit');
