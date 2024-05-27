@@ -1,31 +1,29 @@
 <?php
 include 'koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = $_POST['id'];
+if (isset($_POST['edit'])) {
+    $id = $_GET['id'];
     $kegiatan = $_POST['kegiatan'];
-    $ruangan = $_POST['ruangan'];
+    $ruangan  = $_POST['ruangan'];
     $mulai = $_POST['mulai'];
     $selesai = $_POST['selesai'];
     $ket = $_POST['ket'];
 
-    // Prepare statement to avoid SQL injection
-    $stmt = mysqli_prepare($conn, "UPDATE tb_jadwal SET kegiatan=?, ruangan=?, tgl_mulai=?, tgl_selesai=?, keterangan=? WHERE id=?");
-    mysqli_stmt_bind_param($stmt, "sssssi", $kegiatan, $ruangan, $mulai, $selesai, $ket, $id);
-    
-    if (mysqli_stmt_execute($stmt)) {
-        echo "Event updated successfully";
-        header("Location: kegiatan_admin.php"); // Redirect back to the calendar page
+    $update = mysqli_query($conn, "UPDATE tb_jadwal SET kegiatan='$kegiatan', ruangan='$ruangan', mulai='$mulai', selesai='$selesai', keterangan='$ket' WHERE id = '$id'");
+    if ($update) {
+        echo "
+        <script>
+            alert('Jadwal Berhasil di Edit');
+            window.location.href='kegiatan_admin.php';
+        </script>
+        ";
     } else {
-        echo "Error: " . mysqli_stmt_error($stmt);
+        echo "
+    <script>
+        alert('Jadwal Gagal di Edit');  
+        window.location.href='edit_kegiatan.php?id=$id';
+    </script>
+    ";
     }
-
-    // Close the statement
-    mysqli_stmt_close($stmt);
-} else {
-    echo "Invalid request method.";
 }
-
-// Close the connection
-mysqli_close($conn);
 ?>

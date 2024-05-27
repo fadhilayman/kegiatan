@@ -1,3 +1,9 @@
+<?php 
+include "koneksi.php";
+$id = $_GET['id'];
+$queryjadwal = mysqli_query($conn, "SELECT * FROM tb_jadwal WHERE id = '$id'") or die (mysqli_error($conn));
+$event = mysqli_fetch_array($queryjadwal); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,27 +56,6 @@
     <title>Document</title>
 </head>
 <body>
-<?php
-include 'koneksi.php';
-
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
-}
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-
-    // Prepare statement to avoid SQL injection
-    $stmt = mysqli_prepare($conn, "SELECT * FROM tb_jadwal WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    // Check if there is any event with the given ID
-    if (mysqli_num_rows($result) > 0) {
-        // Fetch the event
-        $event = mysqli_fetch_assoc($result);
-?>
 
     <!-- Display the edit event form with the event data -->
     <div class="container mt-4">
@@ -80,9 +65,8 @@ if (isset($_GET['id'])) {
                     <h4>Edit Kegiatan</h4>
                 </div>
                 <div class="card">
-                    <form action="proses_edit_Kegiatan.php" method="POST">
                     <div class="container">
-  <form action="proses_edit_Kegiatan.php" method="POST">
+  <form action="proses_edit_Kegiatan.php?id=<?= $id ?>" method="POST">
     <div class="form-group">
       <label for="kegiatan">Keterangan Kegiatan</label>
       <textarea name="kegiatan" id="kegiatan" cols="30" rows="2"><?php echo $event['kegiatan']; ?></textarea>
@@ -104,7 +88,7 @@ if (isset($_GET['id'])) {
       <input type="text" name="ket" id="ket" value="<?php echo $event['keterangan']; ?>">
     </div>
     <input type="hidden" name="id" value="<?php echo $event['id']; ?>">
-    <input type="submit" value="Selesai">
+    <input type="submit" name="edit" value="Selesai">
   </form>
 </div>
                         </div>
@@ -113,21 +97,6 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </div>
-
-<?php
-    } else {
-        echo "Tidak ada data event yang sesuai dengan ID yang dipilih.";
-    }
-
-    // Close the statement
-    mysqli_stmt_close($stmt);
-} else {
-    echo "ID tidak ditentukan.";
-}
-
-// Close the connection
-mysqli_close($conn);
-?>
 
 </body>
 </html>
